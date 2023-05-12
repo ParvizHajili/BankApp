@@ -31,12 +31,23 @@ namespace PresentationLayer.Controllers
                     LastName = appUserRegisterDto.LastName,
                     UserName = appUserRegisterDto.UserName,
                     Email = appUserRegisterDto.Email,
+                    City = "Baku",
+                    District = "Azeraijan",
+                    ImageUrl = "c"
+
                 };
 
                 var result = await _userManager.CreateAsync(appUser, appUserRegisterDto.Password);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "ConfirmMail");
+                }
+                else
+                {
+                    foreach (var item in result.Errors)
+                    {
+                        ModelState.AddModelError(" ", item.Description);
+                    }
                 }
             }
             return View();
